@@ -69,7 +69,7 @@ class NewsController extends Controller
         return ResponseHelper::sendResponse($news, 200);
     }
 
-    public function getFilters()
+    public function getFilters(Request $request)
     {
         $filters = [
             'categories'                => [],
@@ -79,18 +79,37 @@ class NewsController extends Controller
             'preferred_authors'         => '',
         ];
         $newsQuery = News::query();
+        $sourceId = $request->has('sourceId') && !empty($request['sourceId']) ? $request['sourceId'] : null;
         $filters['categories'] = (clone $newsQuery)->whereNotNull('category')
                                                 ->where('category', '!=', '')
                                                 ->select('category')
                                                 ->distinct('category')
                                                 ->pluck('category')
                                                 ->toArray();
+        if($sourceId)
+            $filters['categories'] = (clone $newsQuery)->whereNotNull('category')
+                                                ->where('category', '!=', '')
+                                                ->where('source_id', '=', $sourceId)
+                                                ->select('category')
+                                                ->distinct('category')
+                                                ->pluck('category')
+                                                ->toArray();
+
         $filters['authors'] = (clone $newsQuery)->whereNotNull('author')
                                                 ->where('author', '!=', '')
                                                 ->select('author')
                                                 ->distinct('author')
                                                 ->pluck('author')
                                                 ->toArray();
+        if($sourceId)
+            $filters['authors'] = (clone $newsQuery)->whereNotNull('author')
+                                                    ->where('author', '!=', '')
+                                                    ->where('source_id', '=', $sourceId)
+                                                    ->select('author')
+                                                    ->distinct('author')
+                                                    ->pluck('author')
+                                                    ->toArray();
+
         $authUser = Auth::user();
         if($authUser){
             $filters['preferred_sources'] = $authUser->preferred_sources;

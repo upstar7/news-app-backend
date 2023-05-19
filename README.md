@@ -1,13 +1,11 @@
-## Server-side Setup
+## News APP Backend
 
-1. clone / download the project folder `git clone https://github.com/DarshPhpDev/news-aggregator.git`
+1. git clone https://github.com/harrisrui/news-app-backend.git
 
-2. Navigate to the backend directory: `cd news-aggregator/backend`
+2. Run this command: `docker-compose up -d`
 
-3. Run the following command: `docker-compose up -d`
+3. Run this migrate command `docker-compose exec backend-app ./artisan migrate --seed`
 
-4. Run the migrate command `docker-compose exec backend-app ./artisan migrate --seed`
+4. Run this command `docker-compose exec backend-app ./artisan news:fetch`
 
-5. Run the news scrapping command manually `docker-compose exec backend-app ./artisan news:fetch` or add the following command to your server crontab setup `* * * * * php /path/to/backend/folder/artisan schedule:run >> /dev/null 2>&1`
-
-6. Open your browser and navigate to: `http://localhost:8000`... finally the backend server is up and running
+5. Open your browser and navigate to: `http://localhost:8000`... finally the backend server is up and running
