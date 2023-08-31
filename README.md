@@ -1,6 +1,6 @@
 ## News APP Backend
 
-1. git clone https://github.com/harrisrui/news-app-backend.git
+1. git clone https://github.com/upstar7/news-app-backend.git
 
 2. Run this command: `docker-compose up -d`
 
